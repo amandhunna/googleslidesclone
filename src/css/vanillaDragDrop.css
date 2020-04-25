@@ -1,0 +1,23 @@
+
+/* Dragged source element style */
+.dragged {
+    opacity: .6;
+    border-style: dashed;
+}
+
+/* Drag feedback image style */
+.drag-feedback {
+    background: lightskyblue;
+    border: 1px solid dodgerblue;
+}
+
+/* drop zone highlights */
+.active-zone {
+    background: #fffad6;
+    border: 2px solid #aaa479;
+}
+
+.over-zone {
+    background: #ffc6c6;
+    border: 2px solid #931414;
+}

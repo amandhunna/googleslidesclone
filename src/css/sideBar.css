@@ -1,0 +1,13 @@
+aside {
+  background: red;
+  height: 100vh;
+  flex-basis: 20%;
+}
+
+.slideSnap {
+  background: aqua;
+  padding: 1rem;
+  margin: 1rem;
+  justify-content: center;
+  display: flex;
+}
