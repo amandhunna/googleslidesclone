@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 
 export default function Editor(props) {
-  const { slide } = props;
+  const { activeSlide, handleTemplateClick, slide } = props;
   const getSlides = () => {
-    console.log("----editor", slide);
-    return slide.map((data, index) => (
+    console.log("----editor", slide, activeSlide);
+    return slide.map((data) => (
       <div
-        id={props.activeSlide[data.uValue]}
+        id={activeSlide[data.uValue]}
         className="slideSnap"
-        onClick={() => props.handleTemplateClick(data.uValue)}
+        onClick={() => handleTemplateClick(data.uValue)}
       >
         {data.images.map((image) => (
           <img
@@ -22,9 +22,7 @@ export default function Editor(props) {
     ));
   };
 
-  useEffect(() => {
-    console.log("---props", props);
-  }, [props]);
+  useEffect(() => {}, [props]);
 
   return <section>{getSlides()}</section>;
 }
