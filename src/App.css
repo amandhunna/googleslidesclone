@@ -11,7 +11,3 @@ main {
   display: flex;
   width: 100%;
 }
-
-div#activeSlide {
-  border: 11px solid red;
-}
