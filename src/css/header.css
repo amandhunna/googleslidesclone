@@ -2,4 +2,19 @@ header {
   width: 100%;
   min-height: 60px;
   background: tomato;
+  display: flex;
+  justify-content: flex-end;
+}
+header > button {
+  border: none;
+  padding: 20px;
+  color: white;
+  background: black;
+  margin: 10px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+button:hover {
+  background: aqua;
+  color: black;
 }

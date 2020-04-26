@@ -4,8 +4,6 @@ import "./css"
 import { Header, SideBar, Editor } from "./components";
 
 function App() {
-  const [textArea, setTextArea] = useState([]);
-  const [images, setImages] = useState([]);
   const [activeSlide, setActiveSlide] = useState({ "1s": "activeSlide" })
   const [slide, setNewSlide] = useState([
     { uValue: "1s", images: [{ id: "something", src: "", top: 0, left: 0 }], textFields: [] },
@@ -20,9 +18,7 @@ function App() {
 
   const headerProps = {
     activeSlide,
-    setImages,
     setNewSlide,
-    setTextArea,
     slide,
   };
   const sideBarProps = {
@@ -31,10 +27,8 @@ function App() {
   };
   const editorProps = {
     activeSlide,
-    images,
     setActiveSlide,
     slide,
-    textArea,
     handleTemplateClick,
   };
   return (
