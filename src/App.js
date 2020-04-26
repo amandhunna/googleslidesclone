@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import "./css"
 import { Header, SideBar, Editor } from "./components";
@@ -7,13 +7,39 @@ function App() {
   const [src, setSRC] = useState();
   const [textArea, setTextArea] = useState([]);
   const [images, setImages] = useState([]);
-  const [slide, setNewSlide] = useState([{ pageNumber: 1, uValue: 1 }, { pageNumber: 2, uValue: 2 }, { pageNumber: 3, uValue: 3 }, { pageNumber: 4, uValue: 4 }]);
+  const [activeSlide, setActiveSlide] = useState({ "1s": "activeSlide" })
+  const [slide, setNewSlide] = useState([
+    { pageNumber: "one", uValue: "1s", images: [{ id: "something", src: "", top: 0, left: 0 }], textFields: [{}] },
+    /* { pageNumber: "two", uValue: "2s" },
+    { pageNumber: "three", uValue: "3s" },
+    { pageNumber: "four", uValue: "4s" },
+    { pageNumber: "five", uValue: "5s" } */]);
 
-  useEffect(() => { console.log("-dlide updated") }, [slide])
+  const handleTemplateClick = slideNumber => {
+    setActiveSlide({ [slideNumber]: "activeSlide" });
+  };
 
-  const headerProps = { setSRC, setTextArea, setImages, slide, setNewSlide };
-  const sideBarProps = { slide, setNewSlide };
-  const editorProps = { src, textArea, images, slide };
+  const headerProps = {
+    activeSlide,
+    setImages,
+    setNewSlide,
+    setSRC,
+    setTextArea,
+    slide,
+  };
+  const sideBarProps = {
+    setNewSlide,
+    slide,
+  };
+  const editorProps = {
+    activeSlide,
+    images,
+    setActiveSlide,
+    slide,
+    src,
+    textArea,
+    handleTemplateClick,
+  };
   return (
     <div className="App">
       <Header {...headerProps} />

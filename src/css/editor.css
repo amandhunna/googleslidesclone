@@ -1,5 +1,13 @@
 section {
-  margin: 2rem;
   background: deepskyblue;
   flex-basis: 80%;
+  overflow: scroll;
+  height: 100vh;
+  background: black;
+  position: relative;
+}
+.slideImage {
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
 }

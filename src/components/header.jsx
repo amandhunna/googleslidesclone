@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 
 export default function Header(props) {
-  const { setSRC, setTextArea, setImages, setNewSlide } = props;
+  const { setSRC, setTextArea, setImages, setNewSlide, activeSlide } = props;
   function updateValue(e) {
     const file = e.target.files[0];
 
@@ -9,8 +9,22 @@ export default function Header(props) {
     reader.readAsDataURL(file);
     reader.onload = (readerEvent) => {
       const value = readerEvent.target.result;
-      console.log(value);
-      setSRC(value);
+      setNewSlide((prev) => {
+        const newState = [...prev];
+        for (let index = 0; index < newState.length; index++) {
+          console.log(
+            "----",
+            newState[index].uValue === Object.keys(activeSlide)[0],
+            newState[index].uValue,
+            activeSlide
+          );
+          if (newState[index].uValue === Object.keys(activeSlide)[0]) {
+            newState[index].images.push({ src: value, top: 0, left: 0 });
+          }
+        }
+        console.log("newState:", newState);
+        return newState;
+      });
     };
   }
   const textField = {};
@@ -29,13 +43,6 @@ export default function Header(props) {
         }
       >
         Add new Text
-      </button>
-      <button
-        onClick={() =>
-          setImages((prev) => prev.push({ ...image, id: prev.id + 1 }))
-        }
-      >
-        Add new Image
       </button>
       <button
         onClick={() =>

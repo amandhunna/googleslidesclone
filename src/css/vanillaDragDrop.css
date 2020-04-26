@@ -1,7 +1,7 @@
 
 /* Dragged source element style */
 .dragged {
-    opacity: .6;
+    opacity: .5;
     border-style: dashed;
 }
 

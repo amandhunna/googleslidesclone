@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 
-const VanillaDragDrop = props => {
+const VanillaDragDrop = props => { 
+  let pickedFrom = ""
+  let droppedAt = ""
   const dropZoneClasses = (props.dropZoneClasses || "drop-zone")
   const draggableClasses = "draggable " + (props.draggableClasses || "")
   useEffect(() => {
@@ -60,20 +62,17 @@ const VanillaDragDrop = props => {
   function dragStartHandler(e) {
     setDropZonesHighlight();
     this.classList.add('dragged', 'drag-feedback');
-    // we use these data during the drag operation to decide
-    // if we handle this drag event or not
     e.dataTransfer.setData("type/dragged-box", 'dragged');
     e.dataTransfer.setData("text/plain", this.textContent.trim());
     deferredOriginChanges(this, 'drag-feedback');
-    console.log("star", e)
-
+    console.log("-----", e)
+    pickedFrom = e.path && e.path[1].id;
   }
 
   /**
    * While dragging is active we can do something
    */
   function dragHandler(e) {
-    /*  console.log(this) */
     // do something... if you want
   }
 
@@ -83,32 +82,27 @@ const VanillaDragDrop = props => {
   function dragEndHandler(e) {
     setDropZonesHighlight(false);
     this.classList.remove('dragged');
-    console.log(e)
-    /*       const droppedAt = e.path[0].parentElement.id;
-
-      props.setNewItem(relationData)
-      if (droppedAt) this.remove()
-      else {
-        // this.remove();
-        console.log("nothing to update")
-      }
-    }
- */  }
-
+    console.log("pickedFrom: " + pickedFrom + ", droppedAt: " + droppedAt);
+    const pickedFromIndex = parseInt(pickedFrom.slice(4), 10);
+    const droppedAtIndex = parseInt(droppedAt.slice(4), 10);
+    props.setNewSlide(prev => {
+      const newSlides = [...prev];
+      const temp = newSlides[pickedFromIndex];
+      newSlides[pickedFromIndex] = newSlides[droppedAtIndex];
+      newSlides[droppedAtIndex] = temp;
+      return newSlides
+    })
+    pickedFrom = ""
+    droppedAt = ""
+  } 
   /**
    * When entering a drop zone check if it should be allowed to
    * drop an element here and highlight the zone if needed
    */
   function dropZoneEnterHandler(e) {
-    // we can only check the data transfer type, not the value for security reasons
-    // https://www.w3.org/TR/html51/editing.html#drag-data-store-mode
+    console.log("------", e.dataTransfer.types.includes('type/dragged-box'), this)
     if (e.dataTransfer.types.includes('type/dragged-box')) {
       this.classList.add("over-zone");
-      // The default action of this event is to set the dropEffect to "none" this way
-      // the drag operation would be disallowed here we need to prevent that
-      // if we want to allow the dragged element to be drop here
-      // https://developer.mozilla.org/en-US/docs/Web/API/Document/dragenter_event
-      // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect
       e.preventDefault();
     }
   }
@@ -119,7 +113,6 @@ const VanillaDragDrop = props => {
    */
   function dropZoneOverHandler(e) {
     if (e.dataTransfer.types.includes('type/dragged-box')) {
-      // The default action is similar as above, we need to prevent it
       e.preventDefault();
     }
   }
@@ -131,7 +124,6 @@ const VanillaDragDrop = props => {
     if (e.dataTransfer.types.includes('type/dragged-box') &&
       e.relatedTarget !== null &&
       e.currentTarget !== e.relatedTarget.closest('.drop-zone')) {
-      // https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/relatedTarget
       this.classList.remove("over-zone");
     }
   }
@@ -140,22 +132,12 @@ const VanillaDragDrop = props => {
    * On successful drop event, move the element
    */
   function dropZoneDropHandler(e) {
-    // We  drop default action (eg. move selected text)
-    // default actions detailed here:
-    // https://www.w3.org/TR/html51/editing.html#drag-and-drop-processing-model
-    e.preventDefault();
-
-    // We have checked in the "dragover" handler (dropZoneOverHandler) if it is allowed
-    // to drop here, so it should be ok to move the element without further checks
-    let draggedElement = document.querySelector('.dragged');
-    e.currentTarget.appendChild(draggedElement);
-
-
-    //    const nodeCopy = document.querySelector('.dragged').cloneNode(true)
-    //    e.currentTarget.appendChild(nodeCopy);
-
+    if (e.path) {
+      if (/drag/.test(e.path[0].id)) droppedAt = e.path[0].id
+      if (/drag/.test(e.path[2].id)) droppedAt = e.path[2].id
+      if (/drag/.test(e.path[3].id)) droppedAt = e.path[3].id
+    }
   }
-
 
   /**
    * Highlight all drop zones or remove highlight
@@ -183,20 +165,11 @@ const VanillaDragDrop = props => {
     });
   }
 
-
-  if (props.children && props.children.length)
-    return (
-      <div className={dropZoneClasses}>
-        {props.children.map((element, index) =>
-          <div id={index + "0x"} class={draggableClasses}>{element}</div>
-        )}
-      </div>
-    );
-
-
   return (
-    <div className={dropZoneClasses}>
-      <div id={props.id} className={draggableClasses}>{props.children}</div>
+    <div key={props.id + "" + Math.random()}
+      id={"drag" + props.id}
+      className={dropZoneClasses}>
+      <div className={draggableClasses}>{props.children}</div>
     </div>
   );
 };

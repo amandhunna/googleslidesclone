@@ -1,7 +1,8 @@
 aside {
-  background: red;
+  background: #000000af;
   height: 100vh;
   flex-basis: 20%;
+  overflow: scroll;
 }
 
 .slideSnap {
@@ -10,4 +11,14 @@ aside {
   margin: 1rem;
   justify-content: center;
   display: flex;
+  position: relative;
+}
+.slideSnap > button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: navajowhite;
+  padding: 0.2rem;
+  background: palevioletred;
+  color: white;
 }
