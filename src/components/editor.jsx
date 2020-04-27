@@ -3,19 +3,6 @@ import React, { useEffect } from "react";
 export default function Editor(props) {
   const { activeSlide, handleTemplateClick, slide, setProperties } = props;
 
-  const getValue = (obj, key) => {
-    const initialValue = obj[key];
-    const parseInt = parseInt(initialValue, 10);
-    let finalValue = initialValue;
-    if (initialValue <= 30) {
-      finalValue = 30;
-    }
-    const element = document.querySelector(".slide");
-    const breakPoint =
-      key === "height" ? element.offsetHeight : element.offsetWidth;
-    if (initialValue > breakPoint) finalValue = breakPoint;
-    return finalValue;
-  };
   const getSlides = () => {
     return slide.map((data) => (
       <div
@@ -29,14 +16,11 @@ export default function Editor(props) {
           const rows = textField.row || "4";
           const cols = textField.cols || "50";
           return (
-            <textarea
-              id={textField.id}
-              rows={rows}
-              cols={cols}
-              className="slideTextArea"
-              alt="not found"
+            <p contenteditable="true"
               style={{ top: `${top}px`, left: `${left}px` }}
-            />
+              id={textField.id}
+              className="slideTextArea"
+            ></p>
           );
         })}
         {data.images.map((image) => {

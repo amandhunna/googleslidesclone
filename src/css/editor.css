@@ -22,3 +22,8 @@ section {
 div#activeSlide {
   border: 2px solid deepskyblue;
 }
+.slideTextArea {
+  min-height: 118px;
+  border: 2px dotted #0000000f;
+  position: absolute;
+}

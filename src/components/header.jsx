@@ -3,6 +3,21 @@ import React, { useEffect } from "react";
 export default function Header(props) {
   const { setNewSlide, activeSlide, slide, properties, setProperties } = props;
 
+  // not used, will use to limit value of the images and text box
+  const limiter = (obj, key) => {
+    const initialValue = obj[key];
+    const parseInt = parseInt(initialValue, 10);
+    let finalValue = initialValue;
+    if (initialValue <= 30) {
+      finalValue = 30;
+    }
+    const element = document.querySelector(".slide");
+    const breakPoint =
+      key === "height" ? element.offsetHeight : element.offsetWidth;
+    if (initialValue > breakPoint) finalValue = breakPoint;
+    return finalValue;
+  };
+
   const onPropertyValueChange = (key, value) => {
     const newState = [...slide];
 
@@ -88,7 +103,7 @@ export default function Header(props) {
       console.log(index);
       if (newState[index].uValue === Object.keys({ ...activeSlide })[0]) {
         newState[index].textFields.push({
-          id: (100000 * Math.random()).toString(),
+          id: "textArea" + (100000 * Math.random()).toString(),
           top: 30,
           left: 30,
         });
@@ -134,7 +149,8 @@ export default function Header(props) {
         style={{ display: "none" }}
         multiple
       />
-      {/* <button disabled>Present</button> */}
+      <button disabled>Present</button>
+      <button onClick={() => window.print()}>Print</button>
     </header>
   );
 }

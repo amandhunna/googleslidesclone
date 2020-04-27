@@ -16,7 +16,7 @@ export default function SideBar(props) {
           >
             x
           </button>
-          {data.pageNumber}=={index + 1}
+          pageNumber - {index + 1}
         </div>
       </DragAndDrop>
     ));

@@ -14,7 +14,7 @@ function App() {
     id: (100000 * Math.random()).toString(),
   } */)
   const [slide, setNewSlide] = useState([
-    { uValue: "1s", images: [{ id: "something", src: "", top: 0, left: 0 }], textFields: [] },
+    { uValue: "1s", images: [], textFields: [] },
     /* { pageNumber: "two", uValue: "2s" },
     { pageNumber: "three", uValue: "3s" },
     { pageNumber: "four", uValue: "4s" },
