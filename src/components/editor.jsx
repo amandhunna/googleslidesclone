@@ -1,7 +1,21 @@
 import React, { useEffect } from "react";
 
 export default function Editor(props) {
-  const { activeSlide, handleTemplateClick, slide } = props;
+  const { activeSlide, handleTemplateClick, slide, setProperties } = props;
+
+  const getValue = (obj, key) => {
+    const initialValue = obj[key];
+    const parseInt = parseInt(initialValue, 10);
+    let finalValue = initialValue;
+    if (initialValue <= 30) {
+      finalValue = 30;
+    }
+    const element = document.querySelector(".slide");
+    const breakPoint =
+      key === "height" ? element.offsetHeight : element.offsetWidth;
+    if (initialValue > breakPoint) finalValue = breakPoint;
+    return finalValue;
+  };
   const getSlides = () => {
     return slide.map((data) => (
       <div
@@ -26,14 +40,25 @@ export default function Editor(props) {
           );
         })}
         {data.images.map((image) => {
-          const top = image.top >= 30 ? image.top : 30;
-          const left = image.left >= 30 ? image.left : 30;
+          console.log(image);
+          const top = parseInt(image.top, 10) >= 30 ? image.top : 30;
+          const left = parseInt(image.left, 10) >= 30 ? image.left : 30;
+          const height = image.height;
+          const width = image.width;
+          console.log("-0-----------", typeof top, top, image.top);
           return (
             <img
+              id={image.id}
               className="slideImage"
               alt="not found"
               src={image.src}
-              style={{ top: `${top}px`, left: `${left}px` }}
+              style={{
+                top: `${top}px`,
+                left: `${left}px`,
+                height: "50%",
+                width: "50%",
+              }}
+              onClick={() => setProperties(image)}
             />
           );
         })}

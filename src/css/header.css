@@ -18,3 +18,7 @@ button:hover {
   background: aqua;
   color: black;
 }
+.properties {
+  display: flex;
+  flex-direction: column;
+}

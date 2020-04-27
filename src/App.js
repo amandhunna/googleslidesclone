@@ -5,6 +5,14 @@ import { Header, SideBar, Editor } from "./components";
 
 function App() {
   const [activeSlide, setActiveSlide] = useState({ "1s": "activeSlide" })
+  const [properties, setProperties] = useState(/* {
+    src: "value",
+    top: 0,
+    left: 0,
+    height: 300,
+    width: 300,
+    id: (100000 * Math.random()).toString(),
+  } */)
   const [slide, setNewSlide] = useState([
     { uValue: "1s", images: [{ id: "something", src: "", top: 0, left: 0 }], textFields: [] },
     /* { pageNumber: "two", uValue: "2s" },
@@ -20,6 +28,7 @@ function App() {
     activeSlide,
     setNewSlide,
     slide,
+    properties, setProperties
   };
   const sideBarProps = {
     setNewSlide,
@@ -30,6 +39,7 @@ function App() {
     setActiveSlide,
     slide,
     handleTemplateClick,
+    setProperties
   };
   return (
     <div className="App">
